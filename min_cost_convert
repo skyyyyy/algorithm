@@ -1,0 +1,9 @@
+/*
+Given an array A of positive integers. Convert it to a sorted array with minimum cost. The only valid operation are:
+1) Decrement with cost = 1
+2) Delete an element completely from the array with cost = value of element
+ 
+For example:
+Consider the array 4,3,5,6 . We can sort it by decrementing 4 and thus sorted array will be 3, 3, 5, 6. Minimum cost is 1 for sorting in this case.
+Consider the array 10,3,11,12. We can sort it by deleting 3 and thus sorted array will be 10, 11, 12. Minimum cost is 3 for this case.
+*/

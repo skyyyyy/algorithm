@@ -1,0 +1,33 @@
+
+/*
+Problem: find the kth positive integer that only have factors as 3, 5, or 7. 
+For example, the first integer is 3, then 5, 7, 9, 15, 21....
+*/
+
+int kth_num_of_357(int k){
+ assert(k>0);
+ int val;
+ queue<int> q3;
+ queue<int> q5;
+ queue<int> q7;
+ q3.push(3);
+ q5.push(5);
+ q7.push(7);
+ for(int i=1;i<=k;++i){
+    val = min(q3.front(), min(q5.front(), q7.front()));
+    if(val==q3.front()){
+        q3.pop();
+        q3.push(val*3);
+        q5.push(val*5);
+        q7.push(val*7);
+    }else if(val==q5.front()){
+        q5.pop();
+        q5.push(val*5);
+        q7.push(val*7);
+    }else{
+        q7.pop();
+        q7.push(val*7);
+    }
+ }
+ return val;
+}

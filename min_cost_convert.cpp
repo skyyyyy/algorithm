@@ -11,7 +11,8 @@ Minimum cost is 3 for this case.
 */
 /*
 Solution: Here I give a O(N^2) solution by using DP. The key data structure we need is 
-**dp[i] which records the minimum cost to covert a subarray a[0, i] into sorted array and the last element of the sorted array should be a[i].**  
+**dp[i] which records the minimum cost to covert a subarray a[0, i] into sorted array and the last element of 
+the sorted array should be a[i].**  
 For the example array a[] = {5,4,7,3}, dp[0] = 0, dp[1] = 1 (since we need to decrease "5" by 1), dp[2] = 1, dp[3] = 7. 
 After we had filled up dp[], we need one more data structure: aggr[]. aggr[i] = a[0] + a[1] + ... + a[i]. 
 Then the minmum cost to convert the whole array cost_min = min{dp[i] + aggr[N-1] - aggr[i]}. Here  "aggr[N-1] - aggr[i]" 
@@ -28,7 +29,12 @@ we need to calculate the cost based on step 1 or 2. Then the minmum cost we enco
 */
 
 int min_cost_convert(const vector<int> &nums){
-  if(
+  if(nums.size() < 2) return 0;
+  vector<int> agg(nums.size());
+  agg[0] = nums[0];
+  for(int i=1;i<nums.size();++i){
+     
+  }
 }
 
 

@@ -33,8 +33,32 @@ int min_cost_convert(const vector<int> &nums){
   vector<int> agg(nums.size());
   agg[0] = nums[0];
   for(int i=1;i<nums.size();++i){
-     
+    agg[i] = agg[i-1]+nums[i]; 
   }
+  
+  vector<int> dp(nums.size(),0);
+  for(int i=1;i<nums.size();++i){
+      dp[i] = INT_MAX;
+      for(int j=i-1;j>=0;--j){
+          int cost_i=0;
+          if(nums[j]<=nums[i]){
+              cost_i = dp[j]+ agg[i-1]-agg[j];
+          }else{
+              cost_i = agg[i-1] - agg[j];
+              while(nums[j]>nums[i]){
+                  cost_i += nums[j]-nums[i];
+                  --j;
+              }
+              cost_i += dp[j+1];
+          }
+          dp[i] = min(dp[i], cost_i);
+      }
+  }
+  
+  int min_cost = INT_MAX;
+  for(int i=0;i<nums.size();++i) min_cost = min(min_cost, dp[i]+agg[nums.size()-1]-agg[i]);
+  
+  return min_cost;
 }
 
 

@@ -47,3 +47,34 @@ int group_of_1(const vector<vector<char>> &m){
   }
   return num_group;
 }
+
+
+//solution 2: use dfs, change '1' to '2' for visisted node, if not allowed to change the value of the element, can resotre it 
+//after find the number
+
+int group_of_1_2(vector<vector<char>> &m){
+  if(m.empty() || m[0].empty()) return 0;
+  int rows=m.size();
+  int cols =m[0].size();
+  int num_group = 0;
+  for(int i=0;i<rows;++i){
+    for(int j=0;j<cols;++j){
+      if(m[i][j] == '1'){
+        group_of_1_dfs(m,i,j);
+		    ++num_group;
+      }
+    }
+  }
+  return num_group;
+}
+
+void group_of_1_dfs(vector<vector<char>> &m, int i,int j){
+    m[i][j] = '2';
+	if(i>0 && m[i-1][j]=='1') group_of_1_dfs(m,i-1,j);
+	if(i<m.size()-1 && m[i+1][j]=='1') group_of_1_dfs(m,i+1,j);
+	if(j>0 && m[i][j-1]=='1') group_of_1_dfs(m,i,j-1);
+	if(j<m[0].size()-1 && m[i][j+1]=='1') group_of_1_dfs(m,i,j+1);
+}
+
+
+

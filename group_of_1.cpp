@@ -36,12 +36,12 @@ int group_of_1(const vector<vector<char>> &m){
        q.pop();
        int r = k/cols;
        int c = k%col;
-       if(r>0 && g.find((r-1)*cols+c) == g.end() ){ g.insert((r-1)*cols+c); q.push((r-1)*cols+c);}
-       if(r<rows-1 && g.find((r+1)*cols+c) == g.end()){ g.insert((r+1)*cols+c);q.push((r+1)*cols+c);}
-       if(c>0 && g.find(r*cols+c-1)) == g.end()){ g.insert(r*cols+c-1); q.push(r*cols+c-1);}
-       if(c<cols-1 && g.find(r*cols+c+1) == g.end()){g.insert(r*cols+c+1); q.push(r*cols+c+1);}
+       if(r>0 && m[r-1][c]=='1' && g.find((r-1)*cols+c) == g.end() ){ g.insert((r-1)*cols+c); q.push((r-1)*cols+c);}
+       if(r<rows-1 && m[r+1][c]=='1' && g.find((r+1)*cols+c) == g.end()){ g.insert((r+1)*cols+c);q.push((r+1)*cols+c);}
+       if(c>0 && m[r][c-1]=='1' && g.find(r*cols+c-1) == g.end()){ g.insert(r*cols+c-1); q.push(r*cols+c-1);}
+       if(c<cols-1 && m[r][c+1]=='1' && g.find(r*cols+c+1) == g.end()){g.insert(r*cols+c+1); q.push(r*cols+c+1);}
      }
-     for(unordered_set::iterator it=g.begin(); it!=g.end(); ++it)  h.erase(*it);
+     for(unordered_set<int>::iterator it=g.begin(); it!=g.end(); ++it)  h.erase(*it);
      
      ++num_group;
   }

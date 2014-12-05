@@ -1,5 +1,5 @@
 algorithm regarding binary search, stack, queue,etc..
 =========
 
-*itatic*
+*italic*
 **bold**

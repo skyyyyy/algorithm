@@ -17,7 +17,7 @@ solution 2: use partition
     Check if pivot + sum(p2) == K, if so, we already find the answer; 
           if pivot + sum(p2) > K
                1)if sum(p2) <= K, we also find the answer; 
-               2)if  sum(p2) > K, we need to do further partition, but we just need to further partition p2;  
+               2)if sum(p2) > K, we need to do further partition, but we just need to further partition p2;  
           if pivot + sum(p2) < K,  we need to do further partition, but we need to partition p1 instead 
               and the target value K is updated as K - pivot - sum(p2).
 */

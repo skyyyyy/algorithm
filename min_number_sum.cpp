@@ -11,13 +11,14 @@ solution 1: sort in increasing order and caculate the sum from the end towards b
             this takes O(nlgn)
 solution 2: use partition 
     we introduce a selection based algorithm which on average costs O(n) but costs O(n^2) in the worst case. 
-    The approach is similar to kth order-statistics. Randomly choose a pivot from the current array and partition the array into 
-    two parts p1 and p2: p1 contains integers which are smaller than the pivot; 
+    The approach is similar to kth order-statistics. Randomly choose a pivot from the current array 
+    and partition the array into, two parts p1 and p2: p1 contains integers which are smaller than the pivot; 
     p2 contains integers which are larger than or equal to the pivot.
     Check if pivot + sum(p2) == K, if so, we already find the answer; 
           if not, then if pivot + sum(p2) > K but sum(p2) <= K, we also find the answer; 
           if  sum(p2) > K, we need to do further partition, but we just need to further partition p2;  
-          if pivot + sum(p2) < K,  we need to do further partition, but we need to partition p1 instead and the target value K is updated as K - pivot - sum(p2).
+          if pivot + sum(p2) < K,  we need to do further partition, but we need to partition p1 instead 
+              and the target value K is updated as K - pivot - sum(p2).
 */
 
 int min_number_sum(vector<int>& nums, int k){

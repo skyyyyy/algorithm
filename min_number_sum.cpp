@@ -31,11 +31,11 @@ int min_number_sum(vector<int> &nums, int start, int end, int k){
     while(start < end){
       int s = start;
       int e = end;
-      int pivot = nums[s];
+      int pivot = 0;
       while(s < e){
-        while(s < e && nums[e]>=pivot) --e;
+        while(s < e && nums[e]>pivot) --e;
         if(s < e) swap(nums[s], nums[e]);
-        while(s < e && nums[s]<pivot) ++s;
+        while(s < e && nums[s]<=pivot) ++s;
         if(s < e) swap(nums[s], nums[e]);
       }
       
@@ -44,14 +44,13 @@ int min_number_sum(vector<int> &nums, int start, int end, int k){
       
       if(sum == k ) return end-s+1+found;
       else if(sum > k){
-        if(sum-nums[s] <= k) return end-s+found;
+        if(sum-nums[s] < k) return end-s+1+found;
+        else if(sum-nums[s]==k) return end-s+found;
         else{
           start = s+1;
         }
       }else{
-         found += end-s+1;
-         end = s-1;
-         k -= sum;
+         return -1;
       }
     }
     return -1;

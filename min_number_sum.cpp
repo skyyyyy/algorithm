@@ -15,8 +15,9 @@ solution 2: use partition
     and partition the array into, two parts p1 and p2: p1 contains integers which are smaller than the pivot; 
     p2 contains integers which are larger than or equal to the pivot.
     Check if pivot + sum(p2) == K, if so, we already find the answer; 
-          if not, then if pivot + sum(p2) > K but sum(p2) <= K, we also find the answer; 
-          if  sum(p2) > K, we need to do further partition, but we just need to further partition p2;  
+          if pivot + sum(p2) > K
+               1)if sum(p2) <= K, we also find the answer; 
+               2)if  sum(p2) > K, we need to do further partition, but we just need to further partition p2;  
           if pivot + sum(p2) < K,  we need to do further partition, but we need to partition p1 instead 
               and the target value K is updated as K - pivot - sum(p2).
 */
@@ -43,7 +44,7 @@ int min_number_sum(vector<int> &nums, int start, int end, int k){
       
       if(sum == k ) return end-s+1+found;
       else if(sum > k){
-        if(sum-nums[i] < k) return end-s+found;
+        if(sum-nums[s] <= k) return end-s+found;
         else{
           start = s+1;
         }

@@ -29,8 +29,8 @@ int solutionKSum_Rec(vector<int> A,int k,int target) {
 
 /*
 DP
-map[i][j][t] denotes the number of ways to select, 
-from first i elements, j elements whose sum equals to target
+map[i][j][t] denotes the number of ways to select 
+first i elements from array, j elements whose sum equals to t
 */
 
 

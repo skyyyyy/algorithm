@@ -45,7 +45,35 @@ typedef DirectedGraphNode gnode;
 /*
 bfs
 */
- 
+ /**
+ * @param graph: A list of Directed graph node
+ * @return: Any topological order for the given graph.
+ */
+vector<DirectedGraphNode*> topSort(vector<DirectedGraphNode*> graph) {
+    // write your code here
+    unordered_map<gnode*, int> indegree;
+    int n = graph.size();
+    for(int i=0;i<n;++i){
+        for(int j=0;j<graph[i].neighbors.size();++j){
+            indegree[graph[i].neighbors[j]]++;
+        }
+    }
+    queue<gnode*> q;
+    for(int i=0;i<n;++i){
+        if(indegree.find(graph[i])==indegree.end()) q.push(graph[i]);
+    }
+    vector<gnode*> res;
+    while(!q.empty()){
+        gnode* node=q.front();
+        res.push_back(node);
+        q.pop();
+        for(int i=0;i<node->neighbors.size();++i){
+            indegree[node->neighbors[i]]--;
+            if(0==indegree[node->neighbors[i]]) q.push(node->neighbors[i);
+        }
+    }
+    return res;
+}
 /*
 dfs
 */

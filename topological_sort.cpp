@@ -98,10 +98,11 @@ vector<DirectedGraphNode*> topSort(vector<DirectedGraphNode*> graph) {
 
 void dfs(gnode* node, unordered_map<gnode*> &visited, stack<gnode*> &s){
      if(visisted.find(node)!=visited.end()) return;
+     visited.insert(node);
      for(int i=0;i<node->neighbors.size();++i){
        dfs(node->neighbors[i], visited, s);
      }
-     visited.insert(node);
+     
      s.push(node);
 }
 

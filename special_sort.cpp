@@ -80,7 +80,7 @@ int[] a = {1, -1, 3, -2, -4, 2};
         }
 
         if (isSwitch) {
-            helper(a, l, negCount - 1);
+            helper(a, l, l+negCount - 1);
             helper(a, l + negCount, r);
         }
 

@@ -23,12 +23,15 @@ int closestLeaf(TreeNode* root, TreeNode* target){
     return min_dist;
 }
 int minDistToLeaf(TreeNode* root, TreeNode* target, int &min_dist){
-    if(!root) return 0;
+    if(!root) return INT_MAX;
     int res = 0;
+    if(root->left || root->right) res = 1 +min(minDistToLeaf(root->left, target,min_dist),minDistToLeaf(root->right,target,min_dist));
+    /*
     if(!root->left && !root->right) res=0;
     else if(root->left && !root->right) res = 1 + minDistToLeaf(root->left,target,min_dist);
     else if(root->right && !root->left) res = 1 + minDistToLeaf(root->right, target, min_dist);
     else res = 1 +min(minDistToLeaf(root->left, target,min_dist),minDistToLeaf(root->right,target,min_dist));
+    */
     if(target == root) min_dist = min(min_dist, res);
     else if(target == root->left || target==root->right) min_dist=min(min_dist,res+1);
     return res;

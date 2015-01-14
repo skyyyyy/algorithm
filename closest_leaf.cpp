@@ -19,20 +19,39 @@ Closest leaf to 'B' is 'B' itself, so distance is 0 for 'B'
 
 int closestLeaf(TreeNode* root, TreeNode* target){
     int min_dist = INT_MAX;
-    minDistToLeaf(root, target,min_dist);
+    vector<TreeNode*> ancestor;
+    findAncestor(root, target, ancestor);
+    for(int i=0;i<ancestor.size();++i){
+        min_dist = min(min_dist,i+minDistToLeaf(ancestor[i]));
+    }
     return min_dist;
 }
-int minDistToLeaf(TreeNode* root, TreeNode* target, int &min_dist){
+bool findAncestor(TreeNode* root, TreeNode* target, vector<TreeNode*> &ancestor){
+     if(!root) return false;
+     if(root == target){
+       ancestor.push_back(root);
+       return true;
+     }
+     if(findAncestor(root->left, target, ancestor) || 
+        findAncestor(root->right, target, ancestor)){
+         ancestor.push_back(root);
+         return true;
+     }
+     return false;
+}
+int minDistToLeaf(TreeNode* root){
     if(!root) return INT_MAX;
     int res = 0;
-    if(root->left || root->right) res = 1 +min(minDistToLeaf(root->left, target,min_dist),minDistToLeaf(root->right,target,min_dist));
-    /*
-    if(!root->left && !root->right) res=0;
-    else if(root->left && !root->right) res = 1 + minDistToLeaf(root->left,target,min_dist);
-    else if(root->right && !root->left) res = 1 + minDistToLeaf(root->right, target, min_dist);
-    else res = 1 +min(minDistToLeaf(root->left, target,min_dist),minDistToLeaf(root->right,target,min_dist));
-    */
-    if(target == root) min_dist = min(min_dist, res);
-    else if(target == root->left || target==root->right) min_dist=min(min_dist,res+1);
+    if(root->left || root->right){
+        res = 1 +min(minDistToLeaf(root->left),minDistToLeaf(root->right));          
+    } 
     return res;
 }
+
+
+
+
+
+
+
+

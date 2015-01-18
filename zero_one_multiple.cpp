@@ -15,3 +15,33 @@
 再比如n=30，取{1，10，100，1000，10000，100000} 他们对7的余数{1，10，10，10，10，10}，
 只要从这个集合里面找出前几个数字相加可以等于30就可以了，
 那几个余数对应的原来的数相加，就是符合要求的最小的数。比如说30是10+10+10对应原来的数字10+100+1000=1110。
+
+
+int zero_one_multiple(int k){
+    vector<vector<int> > reminder;
+    for(int i=1;; i *= 10){
+        if(i%k==0) return i;
+        vector<int> r_i;
+        r_i.push_back(i);
+        r_i.push_back(i%k);
+        reminder.push_back(r_i);
+        int size=reminder.size();
+        for(int j=0;j<size-1;++j){
+            vector<int> r = reminder[j];
+            int sum = i%k+r.back();
+            if(sum == k){
+                int res = 0;
+                for(int m=0;m<r.size()-1;++m){
+                    res += r[m];
+                }
+                res += i;
+                return res;
+            }
+            r.pop_back();
+            r.push_back(i);
+            r.push_back(sum);
+            reminder.push_back(r);
+        }
+    }
+}
+

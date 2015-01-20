@@ -1,13 +1,14 @@
 //Parse a formula string (only contains "+-()", no "*/"), for example,
 //5 + 2x - ( 3y + 2x  - ( 7 + 2x) - 9 ) = 3 + 4y”, parse this string, with
 //a given float of ‘x’ value, output a float for ‘y’ value.
+//finally we can get something like a+bx+cy=0; so the task is to find out a, b &c, y will be (a+bx)/-c;
 double evaluateY(const string &str, double x){
-	int sum_num =0, sum_x=0, sum_y=0;
-	int sign=1;
-	int pos_equal = str.find("=");
+    int sum_num =0, sum_x=0, sum_y=0;
+    int sign=1;
+    int pos_equal = str.find("=");
     stack<int> s;
     s.push(1);
-	for(int i=0;i<str.length();++i){
+    for(int i=0;i<str.length();++i){
         char c=str[i];
         if(c>='0' && c<='9'){
             int num = 0;
@@ -15,8 +16,7 @@ double evaluateY(const string &str, double x){
                 num = num*10 +(str[i]-'0');
                 ++i;
             }
-            num *= sign * s.top();
-            num *= (i<pos_equal?1:-1);
+            num *= sign * s.top() * (i<pos_equal?1:-1);
             //cout<< "num:"<<num<<endl;
             if(i<str.length() && (str[i]=='x' || str[i]=='y')){
                 if(str[i]=='x'){
@@ -44,9 +44,9 @@ double evaluateY(const string &str, double x){
             sign = 1;
             s.push(1);
         }
-	}
+   }
 	
-	return (sum_num+sum_x*x)/-sum_y;
+  return (sum_num+sum_x*x)/-sum_y;
 	
 }
 

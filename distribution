@@ -1,0 +1,13 @@
+Read about the larger Google architecture
+Jeff Dean is essentially the chief architect of the Google cloud stack. Read his MapReduce and BigTable papers. MapReduce copied into open source is Hadoop. Similarly BigTable has open source equivalents. Also read the The Tail at Scale paper -- it is very interesting -- classic engineering tips:
+
+http://research.google.com/pubs/jeff.html
+
+System Design:
+Google File System http://research.google.com/archive/gfs.html
+Google Bigtable http://research.google.com/archive/bigtable.html
+Google MapReduce http://research.google.com/archive/mapreduce.html
+Research: http://research.google.com/pubs/papers.html
+
+If you have not already read through Steve Yegge's technical prep tips, please check out his blog:
+http://steve-yegge.blogspot.com/2008/03/get-that-job-at-google.html

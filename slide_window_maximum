@@ -1,0 +1,68 @@
+
+Sliding Window Maximum
+
+A long array A[] is given to you. There is a sliding window of size w which is moving from the very left of the array 
+to the very right. You can only see the w numbers in the window. Each time the sliding window moves rightwards by one position.
+Following is an example: The array is [1 3 -1 -3 5 3 6 7], and w is 3.
+
+Window position                Max
+---------------               -----
+[1  3  -1] -3  5  3  6  7       3
+ 1 [3  -1  -3] 5  3  6  7       3
+ 1  3 [-1  -3  5] 3  6  7       5
+ 1  3  -1 [-3  5  3] 6  7       5
+ 1  3  -1  -3 [5  3  6] 7       6
+ 1  3  -1  -3  5 [3  6  7]      7
+
+Input: A long array A[], and a window width w
+Output: An array B[], B[i] is the maximum value of from A[i] to A[i+w-1]
+Requirement: Find a good optimal way to get B[]
+Solution
+
+To get maximal of current window, it can take O(w) or O(logw) time. But we also need to keep track of the maximals 
+as window sliding from left to right.
+
+The first thought might be heap.
+By maintaining a heap for all numbers in the window can give us a O(nlogw)-time solution, where
+building up a heap for initial window takes time O(wlogw)
+when window moves to the next number, each insertion and deletion take time O(logw) and there are n-w moves in total.
+after updating the heap, findMax only takes time O(1) since we know the top of heap is the largest. 
+So, if w << n, the performance of this solution is good, close to O(n); but if w is not that small, say w = n/3 or n/4, 
+the running time goes up to O(nlogn).
+
+All we need is to keep track of the maximals. Do we really need a heap that performs unnecessary sorting 
+for all numbers in the window?
+The answer is NO.
+
+We can use a Deque which allow insertions/deletions on both ends. For a Deque implemented by Circular Array/Buffer 
+or Double Linked List, the basic insert/delete operations run in constant time.
+
+Back to the problem.
+
+What shall we keep in the deque?
+If we keep all numbers in the window into the queue, each time when we insert a new number and remove a old one, 
+we need to figure out where to insert so as to maintain the numbers in order. That's not easy...
+
+Actually, we do not need to keep all numbers. For example, suppose numbers in a window of size 4 are
+[1, 3, -1, 2], ...
+Obviously, no matter what next numbers are, 1 and -1 are never going to be a maximal as the window moving. 
+The queue should look like [3, 2] in this case.
+
+So, to maintain the queue in order,
+When moves to a new number, iterate through back of the queue, removes all numbers that are not greater than the new one, 
+and then insert the new one to the back.
+findMax only need to take the first one of the queue.
+To remove a number outside the window, only compare whether the current index is greater than the front of queue. 
+If so, remove it. By doing these, we guarantee that the first element of the queue is the maximal 
+and all numbers following it are smaller and came later then it. 
+That said, findMax runs in constant time. Noticing that we only insert and delete each number once. 
+Assuming the insert/delete operations of the Deque run in O(1) time, the total running time for this algorithm is O(n)
+and it takes at most O(w) space!
+
+Isn't it simple and beautiful?!
+
+
+
+
+
+

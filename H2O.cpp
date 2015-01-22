@@ -22,7 +22,7 @@ public:
             unique_lock lk(mtx);
             ++count_H_wait;
             while(count_H_used == 0){
-	    	if (count_H_wait>=2 && count_O_wait>=1} {
+	    	if (count_H_wait>=2 && count_O_wait>=1) {
 	    		cout << "emit a H2O from H" << endl;
 	    		count_H_wait -= 2;
 	    		count_O_wait -= 1;
@@ -40,7 +40,7 @@ public:
 	   unique_lock lk(mtx);
             ++count_O_wait;
             while(count_O_used == 0){
-	    	if (count_H_wait>=2 && count_O_wait>=1} {
+	    	if (count_H_wait>=2 && count_O_wait>=1) {
 	    		cout << "emit a H2O from O" << endl;
 	    		count_H_wait -= 2;
 	    		count_O_wait -= 1;

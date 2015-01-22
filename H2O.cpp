@@ -7,34 +7,52 @@ private:
 	mutex mtx;
 	condition_variable cv_H;
 	condition_variable cv_O;
-	int count_H = 0;
-	int count_O = 0;
+	int count_H_wait ;
+	int count_O_wait ;
+	int count_H_used;
+	int count_O_used;
 public:
 	H2O(){
-		count_H = 0;
-		count_O = 0;
+	    count_H_wait = 0;
+	    count_O_wait = 0;
+	    count_H_used = 0;
+	    count_O_used = 0;
 	}
 	void H(){
-        unique_lock lk(mtx);
-		if (count_H>=2} {
-			while (count_O<1) {
-				cv_O.wait(lk);
-			}
-			count_H -= 2;
-		}
-		++count_H;
-		cv_H.notify_one();
+            unique_lock lk(mtx);
+            ++count_H_wait;
+            while(count_H_used == 0){
+	    	if (count_H_wait>=2 && count_O_wait>=1} {
+	    		cout << "emit a H2O from H" << endl;
+	    		count_H_wait -= 2;
+	    		count_O_wait -= 1;
+	    		count_H_used += 2;
+	    		count_O_used += 1;
+	    		cv_H.notify_all();
+	    		cv_O.notify_all();
+	    	}else{
+	    		cv_H.wait(lk);
+	    	}
+	    }
+	    --count_H_used;
 	}
-	void O(){
-		unique_lock lk(mtx);
-		if (count_O >= 1) {
-			while (couont_H < 2) {
-				cv_H.wait(lk);
-			}
-			count_O -= 1;
-		}
-		++count_O;
-		cv_O.notify_one();
+	void O() {
+	   unique_lock lk(mtx);
+            ++count_O_wait;
+            while(count_O_used == 0){
+	    	if (count_H_wait>=2 && count_O_wait>=1} {
+	    		cout << "emit a H2O from O" << endl;
+	    		count_H_wait -= 2;
+	    		count_O_wait -= 1;
+	    		count_H_used += 2;
+	    		count_O_used += 1;
+	    		cv_H.notify_all();
+	    		cv_O.notify_all();
+	    	}else{
+	    		cv_O.wait(lk);
+	    	}
+	    }
+	    --count_O_used;	
 	}
 };
 

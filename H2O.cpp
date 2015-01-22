@@ -2,6 +2,43 @@
 ，如果当前已经有至少两个线程call H和一个线程call O。那么让两个call H和一个
 call O的线程返回（产生一个水分子），其他的都block
 
+class H2O{
+private:
+	mutex mtx;
+	condition_variable cv_H;
+	condition_variable cv_O;
+	int count_H = 0;
+	int count_O = 0;
+public:
+	H2O(){
+		count_H = 0;
+		count_O = 0;
+	}
+	void H(){
+        unique_lock lk(mtx);
+		if (count_H>=2} {
+			while (count_O<1) {
+				cv_O.wait(lk);
+			}
+			count_H -= 2;
+		}
+		++count_H;
+		cv_H.notify_one();
+	}
+	void O(){
+		unique_lock lk(mtx);
+		if (count_O >= 1) {
+			while (couont_H < 2) {
+				cv_H.wait(lk);
+			}
+			count_O -= 1;
+		}
+		++count_O;
+		cv_O.notify_one();
+	}
+};
+
+
 lock_guard and unique_lock:
   The difference is that you can lock and unlock a std::unique_lock. 
   std::lock_guard will be locked only once on construction and unlocked on destruction.

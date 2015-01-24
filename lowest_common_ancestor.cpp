@@ -176,3 +176,36 @@ int main()
  
     return 0;
 }
+
+
+If we are given a BST where every node has parent pointer, then LCA can be easily determined by traversing up using parent 
+pointer and printing the first intersecting node.
+
+We can solve this problem using BST properties. We can recursively traverse the BST from root. 
+The main idea of the solution is, while traversing from top to bottom, the first node n we encounter with value 
+between n1 and n2, i.e., n1 < n < n2 or same as one of the n1 or n2, is LCA of n1 and n2 (assuming that n1 < n2). 
+So just recursively traverse the BST in, if node's value is greater than both n1 and n2 then our LCA lies in left side of 
+the node, if it's is smaller than both n1 and n2, then LCA lies on right side. Otherwise root is LCA 
+(assuming that both n1 and n2 are present in BST)
+
+/* Function to find LCA of n1 and n2. The function assumes that both
+   n1 and n2 are present in BST */
+struct node *lca(struct node* root, int n1, int n2)
+{
+    while (root != NULL)
+    {
+         // If both n1 and n2 are smaller than root, then LCA lies in left
+        if (root->data > n1 && root->data > n2)
+           root = root->left;
+ 
+        // If both n1 and n2 are greater than root, then LCA lies in right
+        else if (root->data < n1 && root->data < n2)
+           root = root->right;
+ 
+        else break;
+    }
+    return root;
+}
+
+
+

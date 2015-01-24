@@ -27,8 +27,8 @@ int mergeSort(vector<int>& nums, vector<int>& tmp,int left, int right){
   int count = 0;
    if(right > left){
     int middle = left + (right-left)>>1;
-    count += mergeSort(nums,left,middle);
-    count += mergeSort(nums,middle+1,right);
+    count += mergeSort(nums, tmp, left,middle);
+    count += mergeSort(nums, tmp, middle+1,right);
     count += merge(nums,tmp,left,middle+1,right);
   }
   return count;
@@ -37,7 +37,7 @@ int merge(vector<int>& nums, vector<int> &tmp, int left, int middle, int right){
   int i=left,j=middle,k=left;
   int count = 0;
   while(i<middle && j<=right){
-    if(nums[i]) <= nums[j]){
+    if(nums[i] <= nums[j]){
       tmp[k++]=nums[i++];
     }else{
       tmp[k++]=nums[j++];

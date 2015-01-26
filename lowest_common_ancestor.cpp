@@ -207,5 +207,70 @@ struct node *lca(struct node* root, int n1, int n2)
     return root;
 }
 
+//what if there is parent point for each node:
+An easy solution:
+As we trace the two paths from both nodes up to the root, eventually it will merge into one single path. 
+The LCA is the exact first intersection node where both paths merged into a single path. 
+An easy solution is to use a hash table which records visited nodes as we trace both paths up to the root. 
+Once we reached the first node which is already marked as visited, we immediately return that node as the LCA.
+Node *LCA(Node *root, Node *p, Node *q) {
+  hash_set<Node *> visited;
+  while (p || q) {
+    if (p) {
+      if (!visited.insert(p).second)
+        return p; // insert p failed (p exists in the table)
+      p = p->parent;
+    }
+    if (q) {
+      if (!visited.insert(q).second)
+        return q; // insert q failed (q exists in the table)
+      q = q->parent;
+    }
+  }
+  return NULL;
+}
+The run time complexity of this approach is O(h), where h is the tree’s height. 
+The space complexity is also O(h), since it can mark at most 2h nodes.
 
+The best solution:
+A little creativity is needed here. Since we have the parent pointer, 
+we could easily get the distance (height) of both nodes from the root. Once we knew both heights, 
+we could subtract from one another and get the height’s difference (dh). 
+If you observe carefully from the previous solution, the node which is closer to the root is 
+always dh steps ahead of the deeper node. We could eliminate the need of marking visited nodes altogether. Why?
+
+The reason is simple, if we advance the deeper node dh steps above, both nodes would be at the same depth. 
+Then, we advance both nodes one level at a time. They would then eventually intersect at one node, 
+which is the LCA of both nodes. If not, one of the node would eventually reach NULL (root’s parent), 
+which we conclude that both nodes are not in the same tree. 
+However, that part of code shouldn’t be reached, since the problem statement assumed that both nodes are in the same tree.
+int getHeight(Node *p) {
+  int height = 0;
+  while (p) {
+    height++;
+    p = p->parent;
+  }
+  return height;
+}
+ 
+// As root->parent is NULL, we don't need to pass root in.
+Node *LCA(Node *p, Node *q) {
+  int h1 = getHeight(p);
+  int h2 = getHeight(q);
+  // swap both nodes in case p is deeper than q.
+  if (h1 > h2) {
+    swap(h1, h2);
+    swap(p, q);
+  }
+  // invariant: h1 <= h2.
+  int dh = h2 - h1;
+  for (int h = 0; h < dh; h++)
+    q = q->parent;
+  while (p && q) {
+    if (p == q) return p;
+    p = p->parent;
+    q = q->parent;
+  }
+  return NULL;  // p and q are not in the same tree
+}
 

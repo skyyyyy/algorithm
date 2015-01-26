@@ -52,3 +52,38 @@ int celebrity(int n) {
 	}
 	return c;
 }
+
+//BELOW SOLUTION EVEN BETTER, it doesn't use additional space
+int searchCelebrity(int * personIDArr, int n)
+	{
+		if(n < 2)	return -1;
+ 
+		//Initialize celebrity with first person
+		int celebrityIDIndex = 0;
+		int curCheckPerson = 1;
+ 
+		while(curCheckPerson < n)
+		{
+			if(HaveAcquiantance(personIDArr[celebrityIDIndex], personIDArr[curCheckPerson])) {
+				//If celebrityIDIndex person knows curCheckPerson, celebrityIDIndex
+				//person is not the celebrity. Remove it and reset with curCheckPerson
+				celebrityIDIndex = curCheckPerson;
+			}
+ 
+			++curCheckPerson;
+		}
+ 
+		//celebrityIDIndex maybe the celebrity, let's check whether it knows anyone.
+		for(int i = 0; i < n; i++)
+		{
+			if(i == celebrityIDIndex) continue;
+			if(HaveAcquiantance(personIDArr[celebrityIDIndex], personIDArr[i]))
+				return -1; //he knows someone, so there is no such celebrity.
+		}
+ 
+		//celebrityIDIndex person indeed does not know anyone, so he is the celebrity.
+		return celebrityIDIndex;
+	}
+	
+	
+	

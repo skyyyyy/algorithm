@@ -1,0 +1,100 @@
+#ifndef INFIX_TO_POSTFIX
+#define INFIX_TO_POSTFIX
+/*
+For example,
+Given "3 + 4", return "34+".
+Given "3*(4+5)-6/(1+2)", return "345+*612+/-".
+Solution
+
+Intuitively, for digits, we can simply append it to the output string, but for operators, 
+we need a stack to keep previous ones and pop them to the output string as needed.
+
+Let's go through several examples first.
+"3 + 4 - 5" -> "34+5-"    // pop '+' before '-' since they have the same precedence
+"3 + 4 * 5" -> "345*+"    // didn't pop '+' until '*' get popped since '*' has higher precedence than '+'
+"3^2^2+4" -> "322^^4+"    // didn't pop '^' until '+' comes in since '^' is right-associative
+Now, we know what we are going to handle this problem:
+For each read - in character from the given string,
+If it is a digit, append to output;
+If it is a left parenthesis, push it to stack;
+If it is a right parenthesis, pop out operators from stack and append to output 
+   until hit a left parenthesis(if left one doesn't exist, throw exception), 
+   also pop out the left parenthesis but no need to append to output;
+If it is an operator,while the top of stack is an operator and is 
+   left associative and has higher or the same precedence, pop it out and append to output;
+push the new one to stack.
+This algorithm is known as Shunting Yard Algorithm.It runs in time O(n) in average 
+    and takes O(m) extra spaces in worst case, where n is the length of the given string 
+	and m is the number of operators.
+*/
+#include <string>
+#include <stack>
+#include <iostream>
+using namespace std;
+
+bool is_digital(char c) {
+	return c >= '0' && c <= '9';
+}
+bool is_operator(char c) {
+	return c == '+' || c == '-' || c == '*' || c == '/' || c == '^';
+}
+int get_priority(char c) {
+	switch (c) {
+	case '+':
+	case '-':
+		return 1;
+	case '*':
+	case '/':
+		return 2;
+	case '^':
+		return 3;
+
+	}
+	return -1;
+}
+
+bool left_associative(char c) {
+	return c != '^';
+}
+
+string infix_to_postfix(const string &infix) {
+	string postfix;
+	stack<char> s;
+	for (int i = 0; i < infix.length(); ++i) {
+		char c = infix[i];
+		if (is_digital(c)) {
+			postfix.append(1, c);
+		} else if (is_operator(c)) {
+			while (left_associative(c) && !s.empty() && get_priority(s.top()) >= get_priority(c)) {
+				postfix.append(1, s.top());
+				s.pop();
+			}
+			s.push(c);
+		} else if (c == '(') {
+			s.push(c);
+		}
+		else if (c == ')') {
+			while (!s.empty() && s.top() != '(') {
+				postfix.append(1, s.top());
+				s.pop();
+			}
+			s.pop();
+		}
+	}
+
+	while (!s.empty()) {
+		postfix.append(1, s.top());
+		s.pop();
+	}
+	return postfix;
+}
+ 
+
+void test_infix_to_postfix() {
+	cout << "infix: " << "3+4" << " postfix: " << infix_to_postfix("3+4") << endl;
+	cout << "infix: " << "3+4*5" << " postfix: " << infix_to_postfix("3+4*5") << endl;
+	cout << "infix: " << "3*4+5" << " postfix: " << infix_to_postfix("3*4+5") << endl;
+	cout << "infix: " << "3+4/5*6" << " postfix: " << infix_to_postfix("3+4/5*6") << endl;
+	cout << "infix: " << "3*4/5+6" << " postfix: " << infix_to_postfix("3*4/5+6") << endl;
+}
+#endif 

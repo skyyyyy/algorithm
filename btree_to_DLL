@@ -1,0 +1,34 @@
+//convert binary tree to double linked list
+void convertBTreeToDLL(btree* p, btree* &pre, btree* &head) {
+	if (!p) return ;
+	convertBTreeToDLL(p->left, pre, head);
+	if (!pre) {
+		head = p;
+		head->left = NULL;
+	} else {
+		pre->right = p;
+		p->left = pre;
+	}
+	pre = p;
+	convertBTreeToDLL(p->right, pre, head);
+}
+
+//convert binary tree to cycled double linked list
+void convertBTreeToCycledDLL(btree* p, btree* &pre, btree* &head) {
+	if (!p) return;
+	convertBTreeToCycledDLL(p->left, pre, head);
+	if (!pre) {
+		head = p;
+		head->left = NULL;
+	}
+	else {
+		pre->right = p;
+		p->left = pre;
+	}
+	btree* right = p->right;
+	head->left = p;
+	p->right = head;
+	
+	pre = p;
+	convertBTreeToCycledDLL(right, pre, head);
+}

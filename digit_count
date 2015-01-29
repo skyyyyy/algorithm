@@ -1,0 +1,31 @@
+
+Count the number of k's between 0 and n. k can be 0 - 9.
+
+Example
+if n=12, in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], we have FIVE 1's (1, 10, 11, 12)
+
+/*
+     * param k : As description.
+     * param n : As description.
+     * return: How many k's between 0 and n.
+     */
+    int digitCounts(int k, int n) {
+        // write your code here
+        if(n<=9){
+            if(k<=n) return 1;
+            else return 0;
+        } 
+        
+        // 513 into 5 * 100 + 13. [Power = 100; First = 5; Remainder = 13]
+        int power = 1;
+        while(power*10 < n) power*=10;
+        int first = n/power;
+        int remainder = n%power;
+        
+        int a=0;
+        if(first>k) a=power;
+        else if(first==k) a= remainder+1;
+        
+        int b = first*digitCounts(k,power-1) + digitCounts(k,remainder);
+        return a+b;
+    }

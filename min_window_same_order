@@ -1,0 +1,61 @@
+http://www.quora.com/Given-an-input-array-of-integers-of-size-n-and-a-query-array-of-integers-of-size-k-how-do-I-find-the-smallest-window-of-the-input-array-that-contains-all-the-elements-of-the-query-array-preserving-order
+
+/*
+Given an input array of integers of size n, and a query array of integers of size k, 
+how do I find the smallest window of the input array that contains all the elements of the query array, 
+and preserving the order.
+Suppose we have the following inputs:
+
+Input array = [1, 43, 4, 23, 1, 3, 5, 9, 1, 12, 4, 3, 4]
+Query array = [1, 4, 3]
+
+Then this is the desired output: [1, 12, 4, 3]
+*/
+int min_window_same_order(const vector<int> &nums, const vector<int> query){
+	unordered_map<int, vector<int>> num_hash;
+	for (int i = 0; i < nums.size(); ++i) {
+		if (num_hash.find(nums[i]) == num_hash.end()) {
+			num_hash[nums[i]] = vector<int>();
+		}
+		num_hash[nums[i]].push_back(i);
+	}
+	vector< vector<int> > query_index;// (0, vector<int>(0));
+	for (int i = 0; i < query.size(); ++i){
+		if (num_hash.find(query[i]) == num_hash.end()) {
+			return INT_MAX;
+		}
+		query_index.push_back(num_hash[query[i]]);
+	}
+
+	vector<int> candidate(query.size(), 0);
+	int i = 0;
+	int res = INT_MAX;
+	while (true) {
+		while (i>0 && candidate[i] < query_index[i].size() && 
+			   query_index[i][candidate[i]] <= query_index[i-1][candidate[i - 1]]) {
+			++candidate[i];
+		}
+
+		if (candidate[i] == query_index[i].size()) {
+			break;
+		}
+
+		if (i == candidate.size() - 1) {
+			res = min(res, query_index[i][candidate[i]] - query_index[0][candidate[0]] + 1);
+			++candidate[0];
+		}
+		i = (i + 1) % candidate.size();
+	}
+
+	return res;
+}
+
+void test_min_window_same_order() {
+	int array_num[] = { 1, 43, 4, 23, 1, 3, 5, 9, 1, 12, 4, 3, 4 };
+	int array_query[] = { 1, 4, 3 };
+	vector<int> nums; nums.assign(array_num, array_num + sizeof(array_num) / sizeof(array_num[0]));
+	vector<int> query; query.assign(array_query, array_query + sizeof(array_query) / sizeof(array_query[0]));
+	int res = min_window_same_order(nums, query);
+}
+
+

@@ -58,4 +58,44 @@ void test_min_window_same_order() {
 	int res = min_window_same_order(nums, query);
 }
 
+if there are distinct numbers in the query, we can do it on O(n)
 
+#find minimum window
+x = [0,1,2,1,1,5,3,4,5,6,2,1,3]
+q = [1,2,3]
+
+hash = {}
+map = {}
+
+start_index = -1
+end_index = x.length
+min_length =  end_index - start_index
+
+for j in 0...(q.length)
+  #fill hash tables
+  map[q[j]] = j
+  hash[q[j]] = -1
+end
+
+for i in 0...(x.length)
+   #traverse array
+   if x[i] == q[0]
+     hash[q[0]] = i
+   elsif  map[x[i]]
+     r = map[x[i]]
+     if hash[q[r-1]] != -1 #if not empty
+        hash[q[r]] = hash[q[r-1]]
+        hash[q[r-1]] = -1
+        
+        if r == (q.length-1)
+           if min_length > (i-hash[q[r]])
+              #find minimum
+              min_length = (i-hash[q[r]])
+              start_index = hash[q[r]]
+              end_index = i
+           end
+           hash[q[r]] = -1
+        end
+     end  
+   end
+end

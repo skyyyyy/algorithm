@@ -1,0 +1,61 @@
+class Sudoku22 {
+public:
+	vector<vector<vector<int>>> solveSudoku(vector<vector<int> > &board) {
+		vector<vector<vector<int>>> res;
+		solveSudoku(board, make_pair(0, 0), res);
+		return res;
+	}
+private:
+	bool solveSudoku(vector<vector<int>> &board, pair<int, int> p, vector<vector<vector<int>>> &res){
+		pair<int, int> pa = findNextEmptyCell(board, p);
+		if (pa.first == -1 && pa.second == -1){
+			//res.push_back(board);
+			return true;
+		}
+
+		for (int i = 1; i <= 4; ++i){
+			board[pa.first][pa.second] =i;
+			if (isValid(board, pa) && solveSudoku(board, pa, res)) {
+				res.push_back(board);
+				//board[pa.first][pa.second] = 0;
+				//return true;
+			}
+			board[pa.first][pa.second] = 0;
+		}
+		return false;
+	}
+
+	pair<int, int> findNextEmptyCell(vector<vector<int>> &board, pair<int, int> st){
+		
+		for (int r = st.first; r<4; ++r){
+			int c = 0;
+			if (r == st.first) c = st.second;
+			for (; c<4; ++c){
+				if (board[r][c] == 0) return make_pair(r, c);
+			}
+		}
+		return make_pair(-1, -1);
+	}
+
+	bool isValid(vector<vector<int>> &board, pair<int, int> p){
+		//check row
+		for (int i = 0; i<4; ++i) if (i != p.second && board[p.first][p.second] == board[p.first][i]){
+			return false;
+		}
+		//check column
+		for (int i = 0; i<4; ++i) if (i != p.first && board[p.first][p.second] == board[i][p.second]){
+			return false;
+		}
+		//check box
+		int r = (p.first / 2) * 2;
+		int c = (p.second / 2) * 2;
+		for (int i = r; i<r + 2; ++i){
+			for (int j = c; j<c + 2; ++j){
+				if ((i != p.first || j != p.second) && board[p.first][p.second] == board[i][j]){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+};

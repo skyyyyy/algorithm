@@ -1,6 +1,8 @@
 Count Lead Changes
 Leave a reply
-Given an array of positive integers that represents possible points a team could score in an individual play. Now there are two teams play against each other. Their final scores are S and S’. How would you compute the maximum number of times the team that leads could have changed?
+Given an array of positive integers that represents possible points a team could score in an individual play. 
+Now there are two teams play against each other. Their final scores are S and S’. 
+How would you compute the maximum number of times the team that leads could have changed?
 For example, if S=10 and S’=6. The lead could have changed 4 times:
 Team 1 scores 2, then Team 2 scores 3 (lead change);
 Team 1 scores 2 (lead change), Team 2 score 0 (no lead change);

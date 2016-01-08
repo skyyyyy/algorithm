@@ -24,21 +24,21 @@ int crossRiver(int A[], int n){
   dp[0].push_back(make_pair(1, 1));
   int res = INT_MAX;
   for (int i = 0; i < n; ++i) {
-    if (A[i] == 0) continue;
-    vector<pair<int,int>> dp_i = dp[i];
+        if (A[i] == 0) continue;
+        vector<pair<int,int>>& dp_i = dp[i];
 	for(int j=0;j<dp_i.size();++j){
-	  pair<int,int> pr = dp_i[j];
-      if (i + pr.first >= n){
-        res = min(pr.second, res);
-      } else if (A[i + pr.first] == 1) {
-        dp[i + pr.first].push_back(make_pair(pr.first, pr.second + 1));
-      }
-      if (i + pr.first + 1 >= n) {
-        res = min(pr.second, res);
-      } else if (A[i + pr.first + 1] == 1) {
-        dp[i + pr.first + 1].push_back(make_pair(pr.first + 1, pr.second + 1));
-      }
-    }
+	      pair<int,int>& pr = dp_i[j];
+	      if (i + pr.first >= n){
+	        res = min(pr.second, res);
+	      } else if (A[i + pr.first] == 1) {
+	        dp[i + pr.first].push_back(make_pair(pr.first, pr.second + 1));
+	      }
+	      if (i + pr.first + 1 >= n) {
+	        res = min(pr.second, res);
+	      } else if (A[i + pr.first + 1] == 1) {
+	        dp[i + pr.first + 1].push_back(make_pair(pr.first + 1, pr.second + 1));
+	      }
+	    }
   }
   return res;
 }

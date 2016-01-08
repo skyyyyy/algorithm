@@ -71,9 +71,9 @@ int group_of_1_2(vector<vector<char>> &m){
 void group_of_1_dfs(vector<vector<char>> &m, int i,int j){
     m[i][j] = '2';
 	if(i>0 && m[i-1][j]=='1') group_of_1_dfs(m,i-1,j);
-	if(i<m.size()-1 && m[i+1][j]=='1') group_of_1_dfs(m,i+1,j);
+	if(i+1<m.size() && m[i+1][j]=='1') group_of_1_dfs(m,i+1,j);
 	if(j>0 && m[i][j-1]=='1') group_of_1_dfs(m,i,j-1);
-	if(j<m[0].size()-1 && m[i][j+1]=='1') group_of_1_dfs(m,i,j+1);
+	if(j+1<m[0].size() && m[i][j+1]=='1') group_of_1_dfs(m,i,j+1);
 }
 
 

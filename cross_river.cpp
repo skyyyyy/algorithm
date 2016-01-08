@@ -38,7 +38,7 @@ int crossRiver(int A[], int n){
 	      } else if (A[i + pr.first + 1] == 1) {
 	        dp[i + pr.first + 1].push_back(make_pair(pr.first + 1, pr.second + 1));
 	      }
-	    }
+	}
   }
   return res;
 }

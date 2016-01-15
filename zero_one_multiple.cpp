@@ -16,30 +16,24 @@
 只要从这个集合里面找出前几个数字相加可以等于30就可以了，
 那几个余数对应的原来的数相加，就是符合要求的最小的数。比如说30是10+10+10对应原来的数字10+100+1000=1110。
 
-int zero_one_multiple(int k){
-    vector<vector<int> > reminder;
-    for(int i=1;; i *= 10){
-        if(i%k==0) return i;
-        int pre_size=reminder.size();
-        vector<int> r_i;
-        r_i.push_back(i);
-        r_i.push_back(i%k);
-        reminder.push_back(r_i);
-        for(int j=0;j<pre_size;++j){
-            vector<int> r = reminder[j];
-            int sum = i%k+r.back();
-            if(sum == k){
-                int res = 0;
-                for(int m=0;m<r.size()-1;++m){
-                    res += r[m];
+ int zero_one_multiple(int k){
+    
+        vector< pair<int, int> > reminder; //first it's number sum so far, second is the reminder sum so far
+        for(int i=1;; i *= 10) {
+            if(i%k==0) return i;
+            int pre_size=reminder.size();
+            reminder.push_back(make_pair(i, i%k));
+            for(int j=0;j<pre_size;++j){
+                pair<int,int>& r = reminder[j];
+                int sum = i%k+r.second;
+                if(sum == k){
+                    int res = 0;
+                    res += r.first;
+                    res += i;
+                    return res;
                 }
-                res += i;
-                return res;
+                reminder.push_back(make_pair(r.first + i, sum));
             }
-            r.pop_back();
-            r.push_back(i);
-            r.push_back(sum);
-            reminder.push_back(r);
         }
-    }
 }
+

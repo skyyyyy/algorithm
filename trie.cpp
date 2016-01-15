@@ -39,13 +39,13 @@ public:
     bool wordMarker() { return mMarker; }
     void setWordMarker() { mMarker = true; }
     Node* findChild(char c);
-    void appendChild(Node* child) { mChildren.push_back(child); }
-    vector<Node*> children() { return mChildren; }
+    void appendChild(char c, Node* child){mChildren[c] = child};
+  
 
 private:
     char mContent;
     bool mMarker;
-    vector<Node*> mChildren;
+    unordered_map<char, Node*> mChildren;
 };
 
 class Trie {
@@ -61,16 +61,8 @@ private:
 
 Node* Node::findChild(char c)
 {
-    for ( int i = 0; i < mChildren.size(); i++ )
-    {
-        Node* tmp = mChildren.at(i);
-        if ( tmp->content() == c )
-        {
-            return tmp;
-        }
-    }
-
-    return NULL;
+    if(mChildren.count(c) > 0) return mChildren[c];
+    else return NULL;
 }
 
 Trie::Trie()
@@ -86,30 +78,17 @@ Trie::~Trie()
 void Trie::addWord(string s)
 {
     Node* current = root;
-
-    if ( s.length() == 0 )
-    {
-        current->setWordMarker(); // an empty word
-        return;
-    }
-
     for ( int i = 0; i < s.length(); i++ )
     {        
         Node* child = current->findChild(s[i]);
-        if ( child != NULL )
-        {
-            current = child;
-        }
-        else
+        if ( !child )
         {
             Node* tmp = new Node();
             tmp->setContent(s[i]);
-            current->appendChild(tmp);
-            current = tmp;
+            current->appendChild(s[i], tmp);
         }
-        if ( i == s.length() - 1 )
-            current->setWordMarker();
     }
+    current->setWordMarker();
 }
 
 
@@ -117,8 +96,7 @@ bool Trie::searchWord(string s)
 {
     Node* current = root;
 
-    while ( current != NULL )
-    {
+  
         for ( int i = 0; i < s.length(); i++ )
         {
             Node* tmp = current->findChild(s[i]);
@@ -127,13 +105,8 @@ bool Trie::searchWord(string s)
             current = tmp;
         }
 
-        if ( current->wordMarker() )
-            return true;
-        else
-            return false;
-    }
-
-    return false;
+        return current->wordMarker();
+  
 }
 
 

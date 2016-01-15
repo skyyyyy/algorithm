@@ -87,6 +87,7 @@ void Trie::addWord(string s)
             tmp->setContent(s[i]);
             current->appendChild(s[i], tmp);
         }
+        current = current->findChild(s[i]);
     }
     current->setWordMarker();
 }

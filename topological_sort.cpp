@@ -60,7 +60,7 @@ vector<DirectedGraphNode*> topSort(vector<DirectedGraphNode*> graph) {
     }
     queue<gnode*> q;
     for(int i=0;i<n;++i){
-        if(indegree.find(graph[i])==indegree.end()) q.push(graph[i]);
+        if(indegree.count(graph[i])==0) q.push(graph[i]);
     }
     vector<gnode*> res;
     while(!q.empty()){
@@ -97,7 +97,7 @@ vector<DirectedGraphNode*> topSort(vector<DirectedGraphNode*> graph) {
 }
 
 void dfs(gnode* node, unordered_map<gnode*> &visited, stack<gnode*> &s){
-     if(visisted.find(node)!=visited.end()) return;
+     if(visisted.count(node) > 0) return;
      visited.insert(node);
      for(int i=0;i<node->neighbors.size();++i){
        dfs(node->neighbors[i], visited, s);

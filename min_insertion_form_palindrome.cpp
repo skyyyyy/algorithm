@@ -31,7 +31,7 @@ int minInsertion(string str){
 /*
 lots of overlapped subproblem, can use DP
 define dp[i][j] as minimum insertion needed to from palindrome for str[i] to str[j],
-dp[0][n-1] will be some result;
+dp[0][n-1] will be the result;
 dp[i][j]:
   1. 0 if i==j
   2. j==i+1 0 if str[i]==str[j] otherwise 1

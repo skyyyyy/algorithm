@@ -28,6 +28,10 @@ then the cost of the resulting sorted array is dp[m+1] + ∑(a[k] - a[i]) where 
 we need to calculate the cost based on step 1 or 2. Then the minmum cost we encounter is the value of dp[i].
 */
 
+
+the understanderable answer is at https://github.com/xiaoningning/algorithm/blob/master/PuzzleCoding/src/MinCostSortedArray.java
+
+
 int min_cost_convert(const vector<int> &nums){
   if(nums.size() < 2) return 0;
   vector<int> agg(nums.size());
